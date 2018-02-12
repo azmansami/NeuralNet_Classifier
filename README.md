@@ -45,3 +45,10 @@ Following is the computational graph.
 Zooming into one of the hidden layer helps understand the structure bettter (see below). Weights multiplied with the output of previous layer and biases are added. The resultant is then passed through ReLU activation funciton. 
 
 ![input](./readme.imgs/hidden_layer.png)
+
+## Decaying Learning Rate, Loss and Accuracy
+
+A decaying learning rate is used to converge faster. Note that when the learning rate was high, loss function was jumping around and as the learning rate started decreasing, loss function started to decrement in small steps and hence it became much smoother. 
+
+![input](./readme.imgs/all_step_view.png)
+
