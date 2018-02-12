@@ -50,5 +50,6 @@ Zooming into one of the hidden layer helps understand the structure bettter (see
 
 A decaying learning rate is used to converge faster. Note that when the learning rate was high, loss function was jumping around and as the learning rate started decreasing, loss function started to decrement in small steps and hence it became much smoother. 
 
-![input](./readme.imgs/all_step_view.png)
+![input](./readme.imgs/all_time%20view.png)
+
 
