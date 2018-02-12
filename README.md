@@ -46,10 +46,15 @@ Zooming into one of the hidden layer helps understand the structure bettter (see
 
 ![input](./readme.imgs/hidden_layer.png)
 
-## Decaying Learning Rate, Loss and Accuracy
+## Decaying Learning Rate, Loss and Accuracy <a name="lossaccur"></a>
 
 A decaying learning rate is used to converge faster. Note that when the learning rate was high, loss function was jumping around and as the learning rate started decreasing, loss function started to decrement in small steps and hence it became much smoother. 
 
 ![input](./readme.imgs/all_time%20view.png)
+![input](./readme.imgs/all_step%20view.png)
 
+## Conclusion <a name="conclusion"></a>
 
+97% + test accuracy was achieved. 
+
+![input](./readme.imgs/test_accuracy_terminal.png)
