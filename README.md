@@ -44,4 +44,4 @@ Following is the computational graph.
 
 Zooming into one of the hidden layer helps understand the structure bettter (see below). Weights multiplied with the output of previous layer and biases are added. The resultant is then passed through ReLU activation funciton. 
 
-![input]("./readme.imgs/hidden layer.png")
+![input](./readme.imgs/hidden_layer.png)
