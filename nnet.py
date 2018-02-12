@@ -27,6 +27,8 @@ x=tf.placeholder(tf.float32, shape=[None,28,28,1],name="input")
 y_=tf.placeholder(tf.float32, shape=[None,10],name="y_actual")
 
 lr=tf.placeholder(tf.float32,name="LearningRate")
+tf.summary.scalar('LearnRate',lr)
+
 pkeep=tf.placeholder(tf.float32,name="Regularization")
 # 5 layer neural net.
 # layer 1 = 200 node
@@ -82,11 +84,13 @@ with tf.name_scope("loss"):
     #softmax conversion internally for efficiency.
     cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=lin_pred, labels=y_)
     cross_entropy = tf.reduce_mean(cross_entropy)*100
+tf.summary.scalar('Xentropy',cross_entropy)
 
 # accuracy
 with tf.name_scope("accuracy"):
     correct_pred = tf.equal(tf.argmax(y_,1),tf.argmax(y,1))
     accuracy = tf.reduce_mean(tf.cast(correct_pred,tf.float32))
+tf.summary.scalar('Accuracy',accuracy)
 
 with tf.name_scope("train"):
     train=tf.train.GradientDescentOptimizer(lr).minimize(cross_entropy)
@@ -97,16 +101,22 @@ sess = tf.Session()
 sess.run(init)
 
 #setting up the filewirters
-train_writer=tf.summary.FileWriter("/tmp/tboard/nnet/1")
+merged_summary=tf.summary.merge_all()
+train_writer=tf.summary.FileWriter("/tmp/tboard/nnet/train")
+test_writer=tf.summary.FileWriter("/tmp/tboard/nnet/test")
 train_writer.add_graph(sess.graph)
 
 
 for i in range(10000):
     learning_rate=getLearningRate(i,True)
+
     batch_x,batch_y=mnist.train.next_batch(100)
-    _,train_acc=sess.run([train,accuracy],feed_dict={x:batch_x,y_:batch_y,
-                                                     lr:learning_rate,pkeep:probKeep})
-    test_acc=sess.run([accuracy],feed_dict={x:mnist.test.images,
-                                            y_:mnist.test.labels,pkeep:1.0})
+    train_summary,_,_=sess.run([merged_summary,train,accuracy],feed_dict={x:batch_x,y_:batch_y,
+                                                                          lr:learning_rate,pkeep:probKeep})
+    test_summary,test_acc=sess.run([merged_summary,accuracy],feed_dict={x:mnist.test.images,
+                                                                        y_:mnist.test.labels,
+                                                                        lr:learning_rate,pkeep:1.0})
     if i % 50 == 0:
         print("step: ",i,"learning rate: ","%0.5f" % learning_rate," test accuracy:",test_acc)
+        train_writer.add_summary(train_summary,i)
+        test_writer.add_summary(test_summary,i)
